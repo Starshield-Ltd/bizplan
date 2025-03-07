@@ -19,6 +19,8 @@ const PresentationMode = ({ slides, initialSlide, isOpen, onClose }: Presentatio
   const [direction, setDirection] = useState<"next" | "prev" | null>(null);
   const [showInfo, setShowInfo] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
 
   // Enter fullscreen when presentation mode is opened
   useEffect(() => {
@@ -176,7 +178,32 @@ const PresentationMode = ({ slides, initialSlide, isOpen, onClose }: Presentatio
       </button>
 
       {/* Slide Content */}
-      <div className="relative w-full h-full flex items-center justify-center">
+      <div 
+        className="relative w-full h-full flex items-center justify-center"
+        onTouchStart={(e) => {
+          touchStartX.current = e.touches[0].clientX;
+        }}
+        onTouchMove={(e) => {
+          touchEndX.current = e.touches[0].clientX;
+        }}
+        onTouchEnd={() => {
+          if (touchStartX.current === null || touchEndX.current === null) return;
+          
+          const swipeDistance = touchEndX.current - touchStartX.current;
+          const minSwipeDistance = 50;
+          
+          if (Math.abs(swipeDistance) > minSwipeDistance) {
+            if (swipeDistance > 0) {
+              handlePrevious();
+            } else {
+              handleNext();
+            }
+          }
+          
+          touchStartX.current = null;
+          touchEndX.current = null;
+        }}
+      >
         <div 
           className={cn(
             "w-full h-full absolute transition-all duration-300",

@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { slideData } from "@/data/slides";
 import SlideContent from "@/components/SlideContent";
 import SlideNavigation from "@/components/SlideNavigation";
 import SlideGallery from "@/components/SlideGallery";
 import PresentationMode from "@/components/PresentationMode";
 import DarkModeToggle from "@/components/DarkModeToggle";
+import ImageViewer from "@/components/ImageViewer";
 import { Play, Info, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { downloadAllSlides } from "@/utils/downloadUtils";
@@ -15,6 +16,9 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showFullGallery, setShowFullGallery] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
 
   useEffect(() => {
     // Simulate loading for a smoother experience
@@ -37,7 +41,37 @@ const Index = () => {
     }
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+
+    const swipeDistance = touchEndX.current - touchStartX.current;
+    const minSwipeDistance = 50;
+
+    if (Math.abs(swipeDistance) > minSwipeDistance) {
+      if (swipeDistance > 0) {
+        handlePrevious();
+      } else {
+        handleNext();
+      }
+    }
+
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
   const handleSlideSelect = (slideId: number) => {
+    const selectedSlide = slideData.slides.find(slide => slide.id === slideId);
+    if (selectedSlide) {
+      setSelectedImage(selectedSlide.imageUrl);
+    }
     setCurrentSlide(slideId);
   };
 
@@ -119,7 +153,12 @@ const Index = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Current Slide Preview */}
           <div className="lg:col-span-2">
-            <div className="glass-card backdrop-blur-md bg-gray-900/80 rounded-2xl overflow-hidden shadow-lg border border-gray-800/50 h-[500px]">
+            <div 
+              className="glass-card backdrop-blur-md bg-gray-900/80 rounded-2xl overflow-hidden shadow-lg border border-gray-800/50 h-[500px]"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
               <SlideContent slide={getCurrentSlideObject()} />
             </div>
             
@@ -223,6 +262,14 @@ const Index = () => {
         initialSlide={currentSlide}
         isOpen={isPresentationMode}
         onClose={() => setIsPresentationMode(false)}
+      />
+
+      {/* Image Viewer */}
+      <ImageViewer
+        imageUrl={selectedImage || ''}
+        isOpen={!!selectedImage}
+        onClose={() => setSelectedImage(null)}
+        title={`Slide ${currentSlide}`}
       />
 
       {/* Dark Mode Toggle */}
