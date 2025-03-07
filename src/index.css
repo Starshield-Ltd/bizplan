@@ -265,3 +265,8 @@
 .footer-text {
   @apply text-sm text-gray-400 leading-relaxed;
 }
+
+/* Dark mode transition */
+.dark-mode-transition {
+  @apply transition-colors duration-300 ease-in-out;
+}

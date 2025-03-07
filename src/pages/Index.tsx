@@ -1,10 +1,10 @@
-
 import { useState, useEffect } from "react";
 import { slideData } from "@/data/slides";
 import SlideContent from "@/components/SlideContent";
 import SlideNavigation from "@/components/SlideNavigation";
 import SlideGallery from "@/components/SlideGallery";
 import PresentationMode from "@/components/PresentationMode";
+import DarkModeToggle from "@/components/DarkModeToggle";
 import { Play, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -59,9 +59,9 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 dark:from-gray-900 dark:to-black pb-12">
       {/* Header */}
-      <header className="w-full glass-card backdrop-blur-md bg-black/70 border-b border-gray-800/50 sticky top-0 z-30">
+      <header className="w-full glass-card backdrop-blur-md bg-black/70 dark:bg-gray-900/70 border-b border-gray-800/50 sticky top-0 z-30">
         <div className="container mx-auto py-4 px-4 sm:px-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="mb-4 md:mb-0">
@@ -170,7 +170,7 @@ const Index = () => {
         {/* Project Information */}
         <div className="mt-16 max-w-3xl mx-auto">
           <h2 className="text-2xl font-medium mb-4 text-white">About This Project</h2>
-          <div className="glass-card backdrop-blur-md bg-gray-900/80 rounded-2xl p-6 shadow-lg border border-gray-800/50">
+          <div className="glass-card backdrop-blur-md bg-gray-900/80 dark:bg-black/80 rounded-2xl p-6 shadow-lg border border-gray-800/50">
             <p className="text-gray-300 leading-relaxed mb-4">
               This comprehensive presentation explores how technological advancements have transformed the entertainment industry. 
               The project focuses on three major platforms—Netflix, TikTok, and YouTube—analyzing how they've leveraged technology 
@@ -187,9 +187,9 @@ const Index = () => {
         {/* Footer */}
         <footer className="mt-16 pt-8 border-t border-gray-800">
           <div className="max-w-4xl mx-auto text-center text-gray-400 text-sm">
-            <p>
+            <p className="footer-text">
               This Online Project was made to help students like me refer from it anytime in the future and preserved well, By Hardy Yusif.
-              For Computer Information Systems Class -Enjoy , All Rights Reserved 2025 - Presented on 8th March 2025
+              <br />For Computer Information Systems Class at <span className="font-medium text-gray-300">College of New Caledonia</span> - Enjoy , All Rights Reserved 2025 - Presented on 8th March 2025
             </p>
           </div>
         </footer>
@@ -202,6 +202,9 @@ const Index = () => {
         isOpen={isPresentationMode}
         onClose={() => setIsPresentationMode(false)}
       />
+
+      {/* Dark Mode Toggle */}
+      <DarkModeToggle />
     </div>
   );
 };
