@@ -1,9 +1,10 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { X, ChevronLeft, ChevronRight, Info, ArrowDown, ArrowUp } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Info, ArrowDown, ArrowUp, Download } from "lucide-react";
 import { Slide } from "@/types/slide";
 import SlideContent from "./SlideContent";
 import { cn } from "@/lib/utils";
+import { downloadSlide } from "@/utils/downloadUtils";
 
 interface PresentationModeProps {
   slides: Slide[];
@@ -93,6 +94,13 @@ const PresentationMode = ({ slides, initialSlide, isOpen, onClose }: Presentatio
     }
   }, [isOpen, handlePrevious, handleNext, onClose, toggleInfo]);
 
+  const handleDownloadCurrentSlide = async () => {
+    const currentSlideObj = slides.find(slide => slide.id === currentSlide);
+    if (currentSlideObj) {
+      await downloadSlide(currentSlideObj);
+    }
+  };
+
   useEffect(() => {
     setCurrentSlide(initialSlide);
   }, [initialSlide]);
@@ -122,6 +130,14 @@ const PresentationMode = ({ slides, initialSlide, isOpen, onClose }: Presentatio
         className="absolute top-4 right-4 z-50 p-2 rounded-full bg-white/20 text-white backdrop-blur-md transition-all duration-200 hover:bg-white/30"
       >
         <X size={24} />
+      </button>
+
+      {/* Download button for current slide */}
+      <button
+        onClick={handleDownloadCurrentSlide}
+        className="absolute top-4 right-16 z-50 p-2 rounded-full bg-white/20 text-white backdrop-blur-md transition-all duration-200 hover:bg-white/30"
+      >
+        <Download size={24} />
       </button>
 
       {/* Navigation buttons */}
