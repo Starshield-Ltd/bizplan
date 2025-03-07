@@ -258,19 +258,28 @@ const Index = () => {
       )}
 
       {/* Footer */}
-      <footer className="mt-16 pb-8 text-center text-sm text-gray-400">
-        Built with the help of{" "}
-        <a 
-          href="https://www.linkedin.com/in/edhumbling" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="relative inline-block group"
-        >
-          <span className="relative z-10 font-medium bg-gradient-to-r from-red-600 via-[#00f2ea] to-[#ff0050] text-transparent bg-clip-text animate-gradient">
-            Emma
-          </span>
-          <span className="absolute inset-0 bg-gradient-to-r from-red-600/20 via-[#00f2ea]/20 to-[#ff0050]/20 blur-sm group-hover:blur-md transition-all duration-300 animate-pulse" />
-        </a>
+      <footer className="mt-16 pt-8 border-t border-gray-800">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-gray-400 text-sm mb-4">
+            This Online Project was made to help students like me refer from it anytime in the future and preserved well, By Hardy Yusif.
+            <br />For Computer Information Systems Class at <span className="font-medium text-gray-300">College of New Caledonia</span> - Enjoy , All Rights Reserved 2025 - Presented on 8th March 2025
+          </p>
+          
+          <div className="text-sm text-gray-400">
+            Built with the help of{" "}
+            <a 
+              href="https://www.linkedin.com/in/edhumbling" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="relative inline-block group"
+            >
+              <span className="relative z-10 font-medium bg-gradient-to-r from-red-600 via-[#00f2ea] to-[#ff0050] text-transparent bg-clip-text animate-gradient">
+                Emma
+              </span>
+              <span className="absolute inset-0 bg-gradient-to-r from-red-600/20 via-[#00f2ea]/20 to-[#ff0050]/20 blur-sm group-hover:blur-md transition-all duration-300 animate-pulse" />
+            </a>
+          </div>
+        </div>
       </footer>
 
       {/* Download Modal */}
