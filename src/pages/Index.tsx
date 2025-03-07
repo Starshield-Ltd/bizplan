@@ -239,26 +239,6 @@ const Index = () => {
         </div>
       </main>
 
-      {/* Download Modal */}
-      <DownloadModal
-        isOpen={isDownloadModalOpen}
-        onClose={() => setIsDownloadModalOpen(false)}
-        slides={slideData.slides}
-      />
-
-      {/* Fullscreen Slide View */}
-      {fullscreenSlide !== null && (
-        <SlideContent
-          slide={getCurrentSlideObject()}
-          isFullscreen={true}
-          onPrevSlide={handlePrevious}
-          onNextSlide={handleNext}
-          onClose={handleCloseFullscreen}
-          className="fixed inset-0 z-50"
-          totalSlides={slideData.slides.length}
-        />
-      )}
-
       {/* Full Gallery */}
       {showFullGallery && (
         <div ref={galleryRef} className={cn(
@@ -276,33 +256,29 @@ const Index = () => {
           />
         </div>
       )}
-      
-      {/* Project Information */}
-      <div className="mt-16 max-w-3xl mx-auto">
-        <h2 className="text-2xl font-medium mb-4 text-white">About This Project</h2>
-        <div className="glass-card backdrop-blur-md bg-gray-900/80 dark:bg-black/80 rounded-2xl p-6 shadow-lg border border-gray-800/50">
-          <p className="text-gray-300 leading-relaxed mb-4">
-            This comprehensive presentation explores how technological advancements have transformed the entertainment industry. 
-            The project focuses on three major platforms—Netflix, TikTok, and YouTube—analyzing how they've leveraged technology 
-            to revolutionize content creation, distribution, and consumption.
-          </p>
-          <p className="text-gray-300 leading-relaxed">
-            Navigate through the slides to learn about each platform's evolution, technological innovations, audience demographics, 
-            and business strategies. The presentation highlights how technological capabilities have enabled these companies to achieve 
-            international recognition and increased revenues while addressing ethical considerations around privacy and data security.
-          </p>
-        </div>
-      </div>
 
       {/* Footer */}
-      <footer className="mt-16 pt-8 border-t border-gray-800">
-        <div className="max-w-4xl mx-auto text-center text-gray-400 text-sm">
-          <p className="footer-text">
-            This Online Project was made to help students like me refer from it anytime in the future and preserved well, By Hardy Yusif.
-            <br />For Computer Information Systems Class at <span className="font-medium text-gray-300">College of New Caledonia</span> - Enjoy , All Rights Reserved 2025 - Presented on 8th March 2025
-          </p>
-        </div>
+      <footer className="mt-16 pb-8 text-center text-sm text-gray-400">
+        Built with the help of{" "}
+        <a 
+          href="https://www.linkedin.com/in/edhumbling" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="relative inline-block group"
+        >
+          <span className="relative z-10 font-medium bg-gradient-to-r from-red-600 via-[#00f2ea] to-[#ff0050] text-transparent bg-clip-text animate-gradient">
+            Emma
+          </span>
+          <span className="absolute inset-0 bg-gradient-to-r from-red-600/20 via-[#00f2ea]/20 to-[#ff0050]/20 blur-sm group-hover:blur-md transition-all duration-300 animate-pulse" />
+        </a>
       </footer>
+
+      {/* Download Modal */}
+      <DownloadModal
+        isOpen={isDownloadModalOpen}
+        onClose={() => setIsDownloadModalOpen(false)}
+        slides={selectedImage ? [slideData.slides.find(slide => slide.imageUrl === selectedImage)!] : slideData.slides}
+      />
 
       {/* Presentation Mode */}
       {isPresentationMode && (
