@@ -5,14 +5,16 @@ import SlideNavigation from "@/components/SlideNavigation";
 import SlideGallery from "@/components/SlideGallery";
 import PresentationMode from "@/components/PresentationMode";
 import DarkModeToggle from "@/components/DarkModeToggle";
-import { Play, Info } from "lucide-react";
+import { Play, Info, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { downloadAllSlides } from "@/utils/downloadUtils";
 
 const Index = () => {
   const [currentSlide, setCurrentSlide] = useState(1);
   const [isPresentationMode, setIsPresentationMode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showFullGallery, setShowFullGallery] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   useEffect(() => {
     // Simulate loading for a smoother experience
@@ -45,6 +47,17 @@ const Index = () => {
 
   const getCurrentSlideObject = () => {
     return slideData.slides.find(slide => slide.id === currentSlide) || slideData.slides[0];
+  };
+
+  const handleDownloadAllSlides = async () => {
+    try {
+      setIsDownloading(true);
+      await downloadAllSlides(slideData.slides);
+    } catch (error) {
+      console.error("Failed to download slides:", error);
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   if (isLoading) {
@@ -86,6 +99,15 @@ const Index = () => {
               >
                 <Info size={16} className="mr-1.5" />
                 {showFullGallery ? "Hide Gallery" : "All Slides"}
+              </button>
+              
+              <button 
+                onClick={handleDownloadAllSlides}
+                disabled={isDownloading}
+                className="flex items-center px-4 py-2 text-sm font-medium rounded-full bg-[#00f2ea] text-gray-900 hover:bg-[#00dfff] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Download size={16} className="mr-1.5" />
+                {isDownloading ? "Downloading..." : "Download All"}
               </button>
             </div>
           </div>
