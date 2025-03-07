@@ -69,7 +69,7 @@ export const slideData: SlideData = {
       id: 11,
       imageUrl: "https://ik.imagekit.io/edhumbling/CIS-Project-Hardy-Yusif.jpg/11.jpg?updatedAt=1741327554802",
       title: "Case Study: TikTok (Continued)",
-      description: "TikTok's technology is primarily algorithm driven, which makes it unique from other social media apps. In 2021, TikTok's recommendation algorithm was selected as one of the "Top 10 Global Breakthrough Technologies" by MIT Technology Review because the algorithm satisfies each user's specific interests."
+      description: "TikTok's technology is primarily algorithm driven, which makes it unique from other social media apps. In 2021, TikTok's recommendation algorithm was selected as one of the \"Top 10 Global Breakthrough Technologies\" by MIT Technology Review because the algorithm satisfies each user's specific interests."
     },
     {
       id: 12,
