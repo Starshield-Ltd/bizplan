@@ -9,9 +9,11 @@ interface SlideContentProps {
   slide: Slide;
   isFullscreen?: boolean;
   className?: string;
+  onPrevSlide?: () => void;
+  onNextSlide?: () => void;
 }
 
-const SlideContent = ({ slide, isFullscreen = false, className }: SlideContentProps) => {
+const SlideContent = ({ slide, isFullscreen = false, className, onPrevSlide, onNextSlide }: SlideContentProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [scale, setScale] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
@@ -51,9 +53,15 @@ const SlideContent = ({ slide, isFullscreen = false, className }: SlideContentPr
       console.error("Error downloading slide:", error);
     }
   };
-
-  // Touch handlers for pinch zoom
+  const [lastTap, setLastTap] = useState(0);
   const handleTouchStart = (e: React.TouchEvent) => {
+    const now = Date.now();
+    if (now - lastTap < 300) {
+      // Double tap detected
+      handleDoubleTap();
+    }
+    setLastTap(now);
+
     if (e.touches.length === 2) {
       // Store the initial distance between two fingers
       const distance = Math.hypot(
@@ -61,16 +69,15 @@ const SlideContent = ({ slide, isFullscreen = false, className }: SlideContentPr
         e.touches[0].clientY - e.touches[1].clientY
       );
       setStartPosition({ x: distance, y: 0 });
-    } else if (e.touches.length === 1 && scale > 1) {
-      // Enable panning when zoomed in
+    } else if (e.touches.length === 1) {
+      // Enable panning when zoomed in or handle swipe navigation
       setIsDragging(true);
       setStartPosition({
-        x: e.touches[0].clientX - position.x,
-        y: e.touches[0].clientY - position.y
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY
       });
     }
   };
-
   const handleTouchMove = (e: React.TouchEvent) => {
     if (e.touches.length === 2) {
       // Calculate new distance between fingers
@@ -88,18 +95,28 @@ const SlideContent = ({ slide, isFullscreen = false, className }: SlideContentPr
         setStartPosition({ x: distance, y: 0 });
       }
     } else if (e.touches.length === 1 && isDragging) {
-      // Handle panning when zoomed in
-      setPosition({
-        x: e.touches[0].clientX - startPosition.x,
-        y: e.touches[0].clientY - startPosition.y
-      });
+      const deltaX = e.touches[0].clientX - startPosition.x;
+      
+      if (scale > 1) {
+        // Handle panning when zoomed in
+        setPosition({
+          x: e.touches[0].clientX - startPosition.x,
+          y: e.touches[0].clientY - startPosition.y
+        });
+      } else if (Math.abs(deltaX) > 50) {
+        // Handle swipe navigation when not zoomed
+        if (deltaX > 0) {
+          onPrevSlide?.();
+        } else {
+          onNextSlide?.();
+        }
+        setIsDragging(false);
+      }
     }
   };
-
   const handleTouchEnd = () => {
     setIsDragging(false);
   };
-
   const handleDoubleTap = () => {
     // Reset zoom and position on double tap
     if (scale > 1) {
@@ -109,7 +126,6 @@ const SlideContent = ({ slide, isFullscreen = false, className }: SlideContentPr
       setScale(1.5);
     }
   };
-
   return (
     <div className={cn(
       "flex flex-col h-full transition-all duration-500 ease-in-out",
@@ -143,14 +159,36 @@ const SlideContent = ({ slide, isFullscreen = false, className }: SlideContentPr
           />
         </div>
         
-        {/* Download button for individual slide */}
-        <button 
-          onClick={handleDownload}
-          className="absolute bottom-3 right-3 bg-black/60 hover:bg-black/80 text-white p-2 rounded-full transition-all duration-200 backdrop-blur-sm"
-          aria-label={`Download slide ${slide.id}`}
-        >
-          <Download size={18} />
-        </button>
+        {/* Mobile-optimized controls */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 flex justify-between items-center bg-gradient-to-t from-black/70 to-transparent">
+          <button
+            onClick={(e) => { e.stopPropagation(); onPrevSlide?.(); }}
+            className="p-2 text-white/80 hover:text-white transition-colors"
+            aria-label="Previous slide"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+          </button>
+          
+          <button 
+            onClick={handleDownload}
+            className="p-2 text-white/80 hover:text-white transition-colors"
+            aria-label={`Download slide ${slide.id}`}
+          >
+            <Download size={24} />
+          </button>
+          
+          <button
+            onClick={(e) => { e.stopPropagation(); onNextSlide?.(); }}
+            className="p-2 text-white/80 hover:text-white transition-colors"
+            aria-label="Next slide"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
       {!isFullscreen && (
