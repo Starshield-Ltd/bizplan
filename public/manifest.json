@@ -1,0 +1,15 @@
+{
+  "short_name": "CIS Project - Hardy Yusif",
+  "name": "CIS Project - Hardy Yusif",
+  "icons": [
+    {
+      "src": "https://ik.imagekit.io/edhumbling/CIS-Project-Hardy-Yusif.jpg/hardy%20logo.jpg?updatedAt=1741331024560",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
