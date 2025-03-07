@@ -84,33 +84,30 @@ const Index = () => {
               <p className="text-gray-400 text-sm">{slideData.projectSubtitle}</p>
             </div>
             
-            <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-3">
+            <div className="flex flex-row items-center justify-end gap-2 flex-wrap sm:flex-nowrap">
               <button 
                 onClick={togglePresentationMode}
-                className="w-full sm:w-auto flex items-center justify-center px-4 py-2 text-sm font-medium rounded-full bg-red-600 text-white hover:bg-red-700 transition-colors"
+                className="flex-shrink-0 flex items-center justify-center px-3 py-1.5 text-xs font-medium rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transition-colors shadow-lg"
               >
-                <Play size={16} className="mr-1.5" />
+                <Play size={14} className="mr-1" />
                 Present
+              </button>
+              
+              <button 
+                onClick={() => setShowFullGallery(!showFullGallery)}
+                className="flex-shrink-0 flex items-center justify-center px-3 py-1.5 text-xs font-medium rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 transition-colors shadow-lg"
+              >
+                <Info size={14} className="mr-1" />
+                All Slides
               </button>
               
               <button 
                 onClick={handleDownloadAllSlides}
                 disabled={isDownloading}
-                className="w-full sm:w-auto flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-full bg-[#00f2ea] text-gray-900 hover:bg-[#00dfff] transition-colors disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
+                className="flex-shrink-0 flex items-center justify-center px-3 py-1.5 text-xs font-medium rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 text-white hover:from-cyan-500 hover:to-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
               >
-                <span className="absolute inset-0 bg-gradient-to-r from-[#00f2ea] via-[#00dfff] to-[#00f2ea] opacity-0 group-hover:opacity-100 animate-glow transition-opacity"></span>
-                <span className="relative flex items-center justify-center">
-                  <Download size={16} className="mr-1.5" />
-                  {isDownloading ? "Downloading..." : "Download All"}
-                </span>
-              </button>
-              
-              <button 
-                onClick={() => setShowFullGallery(!showFullGallery)}
-                className="w-full sm:w-auto flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-full bg-gray-800 text-gray-200 hover:bg-gray-700 transition-colors"
-              >
-                <Info size={16} className="mr-1.5" />
-                {showFullGallery ? "Hide Gallery" : "All Slides"}
+                <Download size={14} className="mr-1" />
+                {isDownloading ? "Downloading..." : "Download All"}
               </button>
             </div>
           </div>
