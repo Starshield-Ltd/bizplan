@@ -1,6 +1,6 @@
 
-import { useState, useEffect, useCallback } from "react";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { X, ChevronLeft, ChevronRight, Info, ArrowDown, ArrowUp } from "lucide-react";
 import { Slide } from "@/types/slide";
 import SlideContent from "./SlideContent";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,32 @@ const PresentationMode = ({ slides, initialSlide, isOpen, onClose }: Presentatio
   const [currentSlide, setCurrentSlide] = useState(initialSlide);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [direction, setDirection] = useState<"next" | "prev" | null>(null);
+  const [showInfo, setShowInfo] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Enter fullscreen when presentation mode is opened
+  useEffect(() => {
+    if (isOpen && containerRef.current) {
+      try {
+        if (document.fullscreenElement === null) {
+          containerRef.current.requestFullscreen().catch(err => {
+            console.error(`Could not enter fullscreen mode: ${err.message}`);
+          });
+        }
+      } catch (err) {
+        console.error("Fullscreen API not supported");
+      }
+    }
+    
+    return () => {
+      // Exit fullscreen when presentation mode is closed
+      if (document.fullscreenElement !== null) {
+        document.exitFullscreen().catch(err => {
+          console.error(`Could not exit fullscreen mode: ${err.message}`);
+        });
+      }
+    };
+  }, [isOpen]);
 
   const goToSlide = useCallback((slideNumber: number) => {
     if (slideNumber < 1 || slideNumber > slides.length || slideNumber === currentSlide) return;
@@ -41,6 +67,10 @@ const PresentationMode = ({ slides, initialSlide, isOpen, onClose }: Presentatio
     }
   }, [currentSlide, slides.length, goToSlide]);
 
+  const toggleInfo = useCallback(() => {
+    setShowInfo(!showInfo);
+  }, [showInfo]);
+
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (!isOpen) return;
     
@@ -54,10 +84,14 @@ const PresentationMode = ({ slides, initialSlide, isOpen, onClose }: Presentatio
       case "Escape":
         onClose();
         break;
+      case "i":
+      case "I":
+        toggleInfo();
+        break;
       default:
         break;
     }
-  }, [isOpen, handlePrevious, handleNext, onClose]);
+  }, [isOpen, handlePrevious, handleNext, onClose, toggleInfo]);
 
   useEffect(() => {
     setCurrentSlide(initialSlide);
@@ -74,8 +108,15 @@ const PresentationMode = ({ slides, initialSlide, isOpen, onClose }: Presentatio
 
   const currentSlideObj = slides.find(slide => slide.id === currentSlide) || slides[0];
 
+  // Mix of Netflix red, TikTok teal/blue, and YouTube red gradients
+  const brandGradient = "bg-gradient-to-r from-red-600 via-[#00f2ea] to-[#ff0050]";
+
   return (
-    <div className="fullscreen-slides flex items-center justify-center">
+    <div 
+      ref={containerRef}
+      className="fullscreen-slides flex items-center justify-center bg-black"
+    >
+      {/* Close button */}
       <button
         onClick={onClose}
         className="absolute top-4 right-4 z-50 p-2 rounded-full bg-white/20 text-white backdrop-blur-md transition-all duration-200 hover:bg-white/30"
@@ -83,6 +124,7 @@ const PresentationMode = ({ slides, initialSlide, isOpen, onClose }: Presentatio
         <X size={24} />
       </button>
 
+      {/* Navigation buttons */}
       <button
         onClick={handlePrevious}
         disabled={currentSlide === 1}
@@ -109,6 +151,15 @@ const PresentationMode = ({ slides, initialSlide, isOpen, onClose }: Presentatio
         <ChevronRight size={32} className="text-white" />
       </button>
 
+      {/* Info Button */}
+      <button
+        onClick={toggleInfo}
+        className="absolute top-4 left-4 z-50 p-2 rounded-full bg-white/20 text-white backdrop-blur-md transition-all duration-200 hover:bg-white/30"
+      >
+        {showInfo ? <ArrowDown size={24} /> : <Info size={24} />}
+      </button>
+
+      {/* Slide Content */}
       <div className="relative w-full h-full flex items-center justify-center">
         <div 
           className={cn(
@@ -122,6 +173,28 @@ const PresentationMode = ({ slides, initialSlide, isOpen, onClose }: Presentatio
         </div>
       </div>
 
+      {/* Slide Information Panel */}
+      <div 
+        className={cn(
+          "absolute top-0 left-0 right-0 bg-black/80 backdrop-blur-md transition-all duration-300 p-6 z-40",
+          showInfo ? "translate-y-0" : "-translate-y-full"
+        )}
+      >
+        <div className={`${brandGradient} h-1 w-full mb-4 rounded-full`} />
+        <h2 className="text-2xl font-bold text-white mb-2">{currentSlideObj.title}</h2>
+        <p className="text-gray-300">{currentSlideObj.description}</p>
+        <div className="flex justify-end mt-4">
+          <button
+            onClick={toggleInfo}
+            className="flex items-center text-white/70 hover:text-white space-x-1 transition-colors"
+          >
+            <span>Close</span>
+            <ArrowUp size={16} />
+          </button>
+        </div>
+      </div>
+
+      {/* Slide Indicators */}
       <div className="slide-indicator">
         {slides.map((slide) => (
           <button
@@ -136,7 +209,8 @@ const PresentationMode = ({ slides, initialSlide, isOpen, onClose }: Presentatio
         ))}
       </div>
 
-      <div className="presentation-controls">
+      {/* Slide Controls */}
+      <div className={`presentation-controls ${brandGradient}`}>
         <button
           onClick={handlePrevious}
           disabled={currentSlide === 1}

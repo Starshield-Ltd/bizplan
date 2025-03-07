@@ -32,7 +32,7 @@ const SlideContent = ({ slide, isFullscreen = false, className }: SlideContentPr
       className
     )}>
       <div className={cn(
-        "relative flex-1 rounded-2xl overflow-hidden bg-gray-50",
+        "relative flex-1 rounded-2xl overflow-hidden bg-black",
         "transition-all duration-500 ease-in-out transform",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
       )}>
@@ -50,12 +50,12 @@ const SlideContent = ({ slide, isFullscreen = false, className }: SlideContentPr
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           <div className="flex items-center">
-            <div className="h-6 w-6 flex items-center justify-center rounded-full bg-primary text-xs font-medium text-white">
+            <div className="h-6 w-6 flex items-center justify-center rounded-full bg-gradient-to-r from-red-600 via-[#00f2ea] to-[#ff0050] text-xs font-medium text-white">
               {slide.id}
             </div>
-            <h3 className="ml-2 text-lg font-medium">{slide.title}</h3>
+            <h3 className="ml-2 text-lg font-medium text-white">{slide.title}</h3>
           </div>
-          <p className="text-sm text-gray-600">{slide.description}</p>
+          <p className="text-sm text-gray-400">{slide.description}</p>
         </div>
       )}
     </div>

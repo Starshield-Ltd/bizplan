@@ -16,16 +16,19 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 220 60% 40%;
+    /* Netflix red as primary */
+    --primary: 357 92% 47%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 220 14.3% 95.9%;
+    /* TikTok teal as secondary */
+    --secondary: 174 94% 46%;
     --secondary-foreground: 220 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 220 14.3% 95.9%;
+    /* YouTube accent color */
+    --accent: 0 91% 42%;
     --accent-foreground: 220 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -57,16 +60,16 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 357 92% 47%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 174 94% 46%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 0 91% 42%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -104,16 +107,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* Slide transitions */
@@ -156,33 +159,32 @@
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(18, 18, 18, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .presentation-controls {
   @apply fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50
-         flex items-center justify-center gap-4 p-3 px-6 rounded-full
-         bg-white/20 backdrop-blur-md border border-white/30
+         flex items-center justify-center gap-4 p-1 px-6 rounded-full
          shadow-lg transition-all duration-300 ease-in-out;
 }
 
 .presentation-controls button {
   @apply w-10 h-10 flex items-center justify-center rounded-full
-         bg-white/30 hover:bg-white/50 text-gray-800
+         bg-black/30 hover:bg-black/50 text-white
          transition-all duration-200 ease-in-out;
 }
 
 .slide-number {
-  @apply px-3 py-1 text-sm font-medium text-gray-800;
+  @apply px-3 py-1 text-sm font-medium text-white;
 }
 
 .slide-indicator {
   @apply fixed bottom-20 left-1/2 transform -translate-x-1/2 z-40
-         flex gap-1.5 p-2 rounded-full bg-white/20 backdrop-blur-md;
+         flex gap-1.5 p-2 rounded-full bg-black/50 backdrop-blur-md;
 }
 
 .indicator-dot {
@@ -190,12 +192,13 @@
 }
 
 .indicator-dot.active {
-  @apply bg-primary w-4;
+  @apply w-4;
+  background: linear-gradient(to right, #E50914, #00f2ea, #ff0050);
 }
 
 /* Image loading animation */
 .img-loading {
-  @apply relative bg-gray-200 animate-pulse rounded-md overflow-hidden;
+  @apply relative bg-gray-800 animate-pulse rounded-md overflow-hidden;
 }
 
 /* Entrance animations */
@@ -232,4 +235,33 @@
 
 .delay-500 {
   animation-delay: 0.5s;
+}
+
+/* Platform-specific brand colors */
+.netflix-red {
+  color: #E50914;
+}
+
+.tiktok-cyan {
+  color: #00f2ea;
+}
+
+.tiktok-pink {
+  color: #ff0050;
+}
+
+.youtube-red {
+  color: #FF0000;
+}
+
+.platform-gradient {
+  background: linear-gradient(to right, #E50914, #00f2ea, #ff0050);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* For footer styling */
+.footer-text {
+  @apply text-sm text-gray-400 leading-relaxed;
 }
