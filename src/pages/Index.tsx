@@ -84,30 +84,33 @@ const Index = () => {
               <p className="text-gray-400 text-sm">{slideData.projectSubtitle}</p>
             </div>
             
-            <div className="flex items-center space-x-3">
+            <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-3">
               <button 
                 onClick={togglePresentationMode}
-                className="flex items-center px-4 py-2 text-sm font-medium rounded-full bg-red-600 text-white hover:bg-red-700 transition-colors"
+                className="w-full sm:w-auto flex items-center justify-center px-4 py-2 text-sm font-medium rounded-full bg-red-600 text-white hover:bg-red-700 transition-colors"
               >
                 <Play size={16} className="mr-1.5" />
                 Present
               </button>
               
               <button 
-                onClick={() => setShowFullGallery(!showFullGallery)}
-                className="flex items-center px-4 py-2 text-sm font-medium rounded-full bg-gray-800 text-gray-200 hover:bg-gray-700 transition-colors"
+                onClick={handleDownloadAllSlides}
+                disabled={isDownloading}
+                className="w-full sm:w-auto flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-full bg-[#00f2ea] text-gray-900 hover:bg-[#00dfff] transition-colors disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
               >
-                <Info size={16} className="mr-1.5" />
-                {showFullGallery ? "Hide Gallery" : "All Slides"}
+                <span className="absolute inset-0 bg-gradient-to-r from-[#00f2ea] via-[#00dfff] to-[#00f2ea] opacity-0 group-hover:opacity-100 animate-glow transition-opacity"></span>
+                <span className="relative flex items-center justify-center">
+                  <Download size={16} className="mr-1.5" />
+                  {isDownloading ? "Downloading..." : "Download All"}
+                </span>
               </button>
               
               <button 
-                onClick={handleDownloadAllSlides}
-                disabled={isDownloading}
-                className="flex items-center px-4 py-2 text-sm font-medium rounded-full bg-[#00f2ea] text-gray-900 hover:bg-[#00dfff] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={() => setShowFullGallery(!showFullGallery)}
+                className="w-full sm:w-auto flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-full bg-gray-800 text-gray-200 hover:bg-gray-700 transition-colors"
               >
-                <Download size={16} className="mr-1.5" />
-                {isDownloading ? "Downloading..." : "Download All"}
+                <Info size={16} className="mr-1.5" />
+                {showFullGallery ? "Hide Gallery" : "All Slides"}
               </button>
             </div>
           </div>
