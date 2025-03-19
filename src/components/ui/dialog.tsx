@@ -75,7 +75,13 @@ const DialogFooter = ({
       className
     )}
     {...props}
-  />
+  >
+    <p className="text-sm text-muted-foreground">
+      This Online Project was made to help students like me refer from it anytime in the future and preserved well, By Hardy, Divine, Lovish, and Uyen.
+      For Management 154 Class at College of New Caledonia - Enjoy, All Rights Reserved 2025 - Presented on 8th March 2025.
+      Built with the help of Emma.
+    </p>
+  </div>
 )
 DialogFooter.displayName = "DialogFooter"
 

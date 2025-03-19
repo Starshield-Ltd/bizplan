@@ -118,6 +118,68 @@ const Index = () => {
     }, 500);
   };
 
+  const VideoSection = () => {
+    const [isTranscriptVisible, setIsTranscriptVisible] = useState(false);
+
+    const toggleTranscript = () => {
+      setIsTranscriptVisible(!isTranscriptVisible);
+    };
+
+    useEffect(() => {
+      // Load Wistia scripts
+      const playerScript = document.createElement('script');
+      playerScript.src = 'https://fast.wistia.com/player.js';
+      playerScript.async = true;
+
+      const embedScript = document.createElement('script');
+      embedScript.src = 'https://fast.wistia.com/embed/pi7ow2xggh.js';
+      embedScript.async = true;
+      embedScript.type = 'module';
+
+      const transcriptScript = document.createElement('script');
+      transcriptScript.src = 'https://fast.wistia.net/assets/external/transcript.js';
+      transcriptScript.async = true;
+
+      document.body.appendChild(playerScript);
+      document.body.appendChild(embedScript);
+      document.body.appendChild(transcriptScript);
+
+      return () => {
+        document.body.removeChild(playerScript);
+        document.body.removeChild(embedScript);
+        document.body.removeChild(transcriptScript);
+      };
+    }, []);
+
+    return (
+      <div className="relative py-16">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-blue-500/20 animate-aurora blur-2xl" />
+        </div>
+        <div className="relative max-w-4xl mx-auto px-4">
+          <h2 className="text-2xl font-bold text-center mb-8">Project Submission Video - Group 2 (MGT 154)</h2>
+          <div className="aspect-video rounded-xl overflow-hidden shadow-2xl">
+            <wistia-player media-id="pi7ow2xggh" aspect="1.7679558011049723"></wistia-player>
+          </div>
+
+          <div className="mt-8">
+            <button 
+              onClick={toggleTranscript}
+              className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              {isTranscriptVisible ? 'Hide Transcript' : 'Show Transcript'}
+            </button>
+            {isTranscriptVisible && (
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+                <wistia-transcript media-id="pi7ow2xggh"></wistia-transcript>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100">
@@ -133,13 +195,15 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 dark:from-gray-900 dark:to-black pb-12">
       {/* Header */}
       <header className="w-full glass-card backdrop-blur-md bg-black/70 dark:bg-gray-900/70 border-b border-gray-800/50 sticky top-0 z-30">
-        <div className="container mx-auto py-4 px-4 sm:px-6">
+        <div className="container mx-auto py-2 px-2 sm:px-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="mb-4 md:mb-0">
-              <h1 className="text-2xl font-display font-bold bg-gradient-to-r from-red-500 via-[#ff0080] to-[#00dfff] bg-clip-text text-transparent">
-                {slideData.projectTitle}
+              <h1 className="text-2xl font-display font-bold bg-gradient-to-r from-red-500 via-[#ff0080] to-[#00dfff] bg-clip-text text-transparent text-center mb-4">
+                The Horns Effect and Selective Perception
               </h1>
-              <p className="text-gray-400 text-sm">{slideData.projectSubtitle}</p>
+              <p className="text-gray-400 text-sm text-center mb-8">
+                Presented By Hardy, Divine, Lovish, and Uyen
+              </p>
             </div>
             
             <div className="flex flex-row items-center justify-end gap-2 flex-wrap sm:flex-nowrap">
@@ -257,12 +321,15 @@ const Index = () => {
         </div>
       )}
 
+      {/* Video Section */}
+      <VideoSection />
+
       {/* Footer */}
       <footer className="mt-16 pt-8 border-t border-gray-800">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-gray-400 text-sm mb-4">
-            This Online Project was made to help students like me refer from it anytime in the future and preserved well, By Hardy Yusif.
-            <br />For Computer Information Systems Class at <span className="font-medium text-gray-300">College of New Caledonia</span> - Enjoy , All Rights Reserved 2025 - Presented on 8th March 2025
+            This Online Project was made to help students like us refer from it anytime in the future and preserved well, By Hardy, Divine, Lovish, and Uyen.
+            <br />For Management 154 Class at <span className="font-medium text-gray-300">College of New Caledonia</span> - Enjoy , All Rights Reserved 2025 - Presented on 24th March 2025
           </p>
           
           <div className="text-sm text-gray-400">

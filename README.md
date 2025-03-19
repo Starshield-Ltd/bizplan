@@ -1,69 +1,33 @@
-# Welcome to your Lovable project
+# The Horns Effect and Selective Perception
 
-## Project info
+## Presented By
+- Hardy
+- Divine
+- Lovish
+- Uyen
 
-**URL**: https://lovable.dev/projects/a23da3e5-b9bc-4e0e-bef1-b0558b41e77e
+## Project Overview
+This presentation explores the psychological concepts of the Horns Effect and Selective Perception, analyzing their impact on decision-making and interpersonal relationships.
 
-## How can I edit this code?
+## Sections
+1. Introduction to the Horns Effect
+2. Introduction to Selective Perception
+3. Case Studies
+4. Practical Applications
+5. Conclusion
 
-There are several ways of editing your application.
+## Resources
+- Research Papers
+- Case Studies
+- Visual Aids
 
-**Use Lovable**
+## Timeline
+- Week 1: Research and Outline
+- Week 2: Draft Presentation
+- Week 3: Revisions and Finalization
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/a23da3e5-b9bc-4e0e-bef1-b0558b41e77e) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/a23da3e5-b9bc-4e0e-bef1-b0558b41e77e) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+## Team Responsibilities
+- Hardy: Research Lead
+- Divine: Content Writer
+- Lovish: Visual Designer
+- Uyen: Presentation Lead
