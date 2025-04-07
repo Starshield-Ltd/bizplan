@@ -13,16 +13,16 @@ interface SlideContentProps {
   onPrevSlide?: () => void;
   onNextSlide?: () => void;
   onClose?: () => void;
-  totalSlides: number;
+  totalSlides?: number;
 }
 
-const SlideContent = ({ 
-  slide, 
-  isFullscreen = false, 
+const SlideContent = ({
+  slide,
+  isFullscreen = false,
   isPresentationMode = false,
-  className, 
-  onPrevSlide, 
-  onNextSlide, 
+  className,
+  onPrevSlide,
+  onNextSlide,
   onClose,
   totalSlides
 }: SlideContentProps) => {
@@ -126,7 +126,7 @@ const SlideContent = ({
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
       );
-      
+
       const newScale = scale * (distance / startPosition.x);
       if (newScale >= 1 && newScale <= 4) {
         setScale(newScale);
@@ -135,7 +135,7 @@ const SlideContent = ({
     } else if (e.touches.length === 1 && isDragging) {
       const deltaX = e.touches[0].clientX - startPosition.x;
       const deltaY = e.touches[0].clientY - startPosition.y;
-      
+
       if (scale > 1) {
         setPosition({
           x: position.x + deltaX,
@@ -169,7 +169,7 @@ const SlideContent = ({
   };
 
   return (
-    <div 
+    <div
       className={cn(
         "fixed inset-0 z-50 flex items-center justify-center",
         isFullscreen ? "bg-black/90 backdrop-blur-lg" : "",
@@ -178,14 +178,14 @@ const SlideContent = ({
       onClick={isFullscreen ? onClose : undefined}
       onMouseMove={() => isPresentationMode && setShowControls(true)}
     >
-      <div 
+      <div
         className={cn(
           "relative flex-1 max-w-7xl mx-auto",
           isFullscreen ? "p-4 md:p-8" : ""
         )}
         onClick={e => e.stopPropagation()}
       >
-        <div 
+        <div
           ref={containerRef}
           className={cn(
             "relative h-full rounded-2xl overflow-hidden bg-black/60",
@@ -197,7 +197,7 @@ const SlideContent = ({
           onTouchEnd={handleTouchEnd}
           onDoubleClick={handleDoubleTap}
         >
-          <div 
+          <div
             style={{
               transform: `scale(${scale}) translate(${position.x / scale}px, ${position.y / scale}px)`,
               transformOrigin: 'center',
@@ -205,13 +205,13 @@ const SlideContent = ({
             }}
             className="w-full h-full"
           >
-            <SlideImage 
-              src={slide.imageUrl} 
+            <SlideImage
+              src={slide.imageUrl}
               alt={`Slide ${slide.id}: ${slide.title}`}
               className="w-full h-full object-contain"
             />
           </div>
-          
+
           {/* Navigation controls - only show in presentation mode or when not fullscreen */}
           {(!isFullscreen && !isPresentationMode) && (
             <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between items-center px-4 pointer-events-none">
@@ -222,7 +222,7 @@ const SlideContent = ({
               >
                 <ChevronLeft size={24} />
               </button>
-              
+
               <button
                 onClick={(e) => { e.stopPropagation(); onNextSlide?.(); }}
                 className="p-3 rounded-full bg-black/50 backdrop-blur text-white/90 hover:bg-black/70 transition-colors pointer-events-auto"

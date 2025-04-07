@@ -7,6 +7,7 @@ import PresentationMode from "@/components/PresentationMode";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import DownloadModal from "@/components/DownloadModal";
 import ImageViewer from "@/components/ImageViewer";
+import BusinessPlanContent from "@/components/BusinessPlanContent";
 import { Play, Info, Download, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { downloadAllSlides } from "@/utils/downloadUtils";
@@ -103,78 +104,30 @@ const Index = () => {
   const handleShowGallery = () => {
     setShowFullGallery(true);
     setIsGalleryTransitioning(true);
-    
+
     // Scroll to gallery with smooth animation
     if (galleryRef.current) {
-      galleryRef.current.scrollIntoView({ 
+      galleryRef.current.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
       });
     }
-    
+
     // Reset transition state after animation
     setTimeout(() => {
       setIsGalleryTransitioning(false);
     }, 500);
   };
 
-  const VideoSection = () => {
-    const [isTranscriptVisible, setIsTranscriptVisible] = useState(false);
-
-    const toggleTranscript = () => {
-      setIsTranscriptVisible(!isTranscriptVisible);
-    };
-
-    useEffect(() => {
-      // Load Wistia scripts
-      const playerScript = document.createElement('script');
-      playerScript.src = 'https://fast.wistia.com/player.js';
-      playerScript.async = true;
-
-      const embedScript = document.createElement('script');
-      embedScript.src = 'https://fast.wistia.com/embed/pi7ow2xggh.js';
-      embedScript.async = true;
-      embedScript.type = 'module';
-
-      const transcriptScript = document.createElement('script');
-      transcriptScript.src = 'https://fast.wistia.net/assets/external/transcript.js';
-      transcriptScript.async = true;
-
-      document.body.appendChild(playerScript);
-      document.body.appendChild(embedScript);
-      document.body.appendChild(transcriptScript);
-
-      return () => {
-        document.body.removeChild(playerScript);
-        document.body.removeChild(embedScript);
-        document.body.removeChild(transcriptScript);
-      };
-    }, []);
-
+  // Business Plan Section component
+  const BusinessPlanSection = () => {
     return (
       <div className="relative py-16">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-blue-500/20 animate-aurora blur-2xl" />
         </div>
-        <div className="relative max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-center mb-8">Project Submission Video - Group 2 (MGT 154)</h2>
-          <div className="aspect-video rounded-xl overflow-hidden shadow-2xl">
-            <wistia-player media-id="pi7ow2xggh" aspect="1.7679558011049723"></wistia-player>
-          </div>
-
-          <div className="mt-8">
-            <button 
-              onClick={toggleTranscript}
-              className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              {isTranscriptVisible ? 'Hide Transcript' : 'Show Transcript'}
-            </button>
-            {isTranscriptVisible && (
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-                <wistia-transcript media-id="pi7ow2xggh"></wistia-transcript>
-              </div>
-            )}
-          </div>
+        <div className="relative max-w-5xl mx-auto px-4">
+          <BusinessPlanContent />
         </div>
       </div>
     );
@@ -199,31 +152,31 @@ const Index = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="mb-4 md:mb-0">
               <h1 className="text-2xl font-display font-bold bg-gradient-to-r from-red-500 via-[#ff0080] to-[#00dfff] bg-clip-text text-transparent text-center mb-4">
-                The Horns Effect and Selective Perception
+                Authentic African Foods (AAF) - Business Plan
               </h1>
               <p className="text-gray-400 text-sm text-center mb-8">
-                Presented By Hardy, Divine, Lovish, and Uyen
+                Presented By Hardy Yusif
               </p>
             </div>
-            
+
             <div className="flex flex-row items-center justify-end gap-2 flex-wrap sm:flex-nowrap">
-              <button 
+              <button
                 onClick={togglePresentationMode}
                 className="flex-shrink-0 flex items-center justify-center px-3 py-1.5 text-xs font-medium rounded-full bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transition-colors shadow-lg"
               >
                 <Play size={14} className="mr-1" />
                 Present
               </button>
-              
-              <button 
+
+              <button
                 onClick={handleShowGallery}
                 className="flex-shrink-0 flex items-center justify-center px-3 py-1.5 text-xs font-medium rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 transition-colors shadow-lg"
               >
                 <Info size={14} className="mr-1" />
                 All Slides
               </button>
-              
-              <button 
+
+              <button
                 onClick={() => setIsDownloadModalOpen(true)}
                 className="flex-shrink-0 flex items-center justify-center px-3 py-1.5 text-xs font-medium rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 text-white hover:from-cyan-500 hover:to-blue-600 transition-colors shadow-lg"
               >
@@ -240,15 +193,15 @@ const Index = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Current Slide Preview */}
           <div className="lg:col-span-2">
-            <div 
+            <div
               className="glass-card backdrop-blur-md bg-gray-900/80 rounded-2xl overflow-hidden shadow-lg border border-gray-800/50 h-[500px] cursor-pointer"
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
               onClick={() => setFullscreenSlide(currentSlide)}
             >
-              <SlideContent 
-                slide={getCurrentSlideObject()} 
+              <SlideContent
+                slide={getCurrentSlideObject()}
                 onPrevSlide={handlePrevious}
                 onNextSlide={handleNext}
               />
@@ -265,14 +218,14 @@ const Index = () => {
               <p className="text-gray-300 text-sm leading-relaxed">{getCurrentSlideObject().description}</p>
             </div>
           </div>
-          
+
           {/* Slide Thumbnails */}
           <div className="lg:col-span-1">
             <h2 className="text-xl font-medium mb-4 text-white">Quick Navigation</h2>
             <div className="glass-card backdrop-blur-md bg-gray-900/80 rounded-2xl p-4 shadow-lg border border-gray-800/50 max-h-[500px] overflow-y-auto">
               <div className="grid grid-cols-2 gap-3">
                 {slideData.slides.slice(0, showFullGallery ? undefined : 6).map(slide => (
-                  <div 
+                  <div
                     key={slide.id}
                     className={cn(
                       "cursor-pointer rounded-xl overflow-hidden transition-all duration-200",
@@ -282,8 +235,8 @@ const Index = () => {
                     onClick={() => handleSlideSelect(slide.id)}
                   >
                     <div className="aspect-[16/9] relative group">
-                      <img 
-                        src={slide.imageUrl} 
+                      <img
+                        src={slide.imageUrl}
                         alt={`Slide ${slide.id}`}
                         className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
                         loading="lazy"
@@ -311,32 +264,33 @@ const Index = () => {
           "transition-all duration-500 ease-in-out"
         )}>
           <h2 className="text-2xl font-medium mb-6 text-white">All Presentation Slides</h2>
-          <SlideGallery 
-            slideData={slideData} 
+          <SlideGallery
+            slideData={slideData}
             onSlideSelect={slideId => {
               handleSlideSelect(slideId);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
+            onDownload={(slide) => setSelectedImage(slide.imageUrl)}
           />
         </div>
       )}
 
-      {/* Video Section */}
-      <VideoSection />
+      {/* Business Plan Section */}
+      <BusinessPlanSection />
 
       {/* Footer */}
       <footer className="mt-16 pt-8 border-t border-gray-800">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-gray-400 text-sm mb-4">
-            This Online Project was made to help students like us refer from it anytime in the future and preserved well, By Hardy, Divine, Lovish, and Uyen.
-            <br />For Management 154 Class at <span className="font-medium text-gray-300">College of New Caledonia</span> - Enjoy , All Rights Reserved 2025 - Presented on 24th March 2025
+            This business plan outlines the strategy to establish Authentic African Foods (AAF) as the premier destination for African cuisine in Prince George, BC.
+            <br />Developed by Hardy Yusif - <span className="font-medium text-gray-300">Authentic African Foods (AAF)</span> - All Rights Reserved 2025
           </p>
-          
+
           <div className="text-sm text-gray-400">
             Built with the help of{" "}
-            <a 
-              href="https://www.linkedin.com/in/edhumbling" 
-              target="_blank" 
+            <a
+              href="https://www.linkedin.com/in/edhumbling"
+              target="_blank"
               rel="noopener noreferrer"
               className="relative inline-block group"
             >
